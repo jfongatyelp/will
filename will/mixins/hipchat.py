@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 import requests
@@ -94,7 +95,20 @@ class HipChatMixin(object):
 
     @property
     def full_hipchat_user_list(self):
-        if not hasattr(self, "_full_hipchat_user_list"):
+        logging.info("full_hipchat_user_list requested")
+        # Check when this last run, we want to cache the results some
+        # to avoid thrashing the API, yet keep @mention names as fresh
+        # as possible.
+        try:
+            self.cache_age = datetime.datetime.now() - self.last_run
+        except:
+            self.cache_age = datetime.timedelta(seconds=0)
+
+        logging.info("cache age is %s" % self.cache_age)
+
+        self.last_run = datetime.datetime.now()
+        if not hasattr(self, "_full_hipchat_user_list") or self.cache_age > datetime.timedelta(seconds=10):
+            logging.info("Cache miss or no cached roster available: Getting new roster from server")
             full_roster = {}
 
             # Grab the first roster page, and populate full_roster
@@ -114,4 +128,6 @@ class HipChatMixin(object):
                     full_roster["%s" % (user['id'],)] = user
 
             self._full_hipchat_user_list = full_roster
+        else:
+            logging.info("Cache hit on roster, using cached values")
         return self._full_hipchat_user_list

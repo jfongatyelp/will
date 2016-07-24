@@ -5,8 +5,9 @@ from ..acl import is_acl_allowed
 class RosterMixin(object):
     @property
     def internal_roster(self):
-        if not hasattr(self, "_internal_roster"):
-            self._internal_roster = self.load('will_roster', {})
+#        if not hasattr(self, "_internal_roster"):
+        self._internal_roster = self.load('will_roster', {})
+        print "in mixins/roster: %s" % self._internal_roster
         return self._internal_roster
 
     def get_user_by_full_name(self, name):

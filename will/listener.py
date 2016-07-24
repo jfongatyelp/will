@@ -93,10 +93,11 @@ class WillXMPPClientMixin(ClientXMPP, RosterMixin, RoomMixin, HipChatMixin):
                     })
 
                     # If we don't have a nick yet, pull it and mention_name off the master user list.
-                    if not hasattr(internal_roster[user_id], "nick"):
-                        user_data = self.full_hipchat_user_list[hipchat_id]
-                        internal_roster[user_id].nick = user_data["mention_name"]
-                        internal_roster[user_id].mention_name = user_data["mention_name"]
+                    # Grab the nickname from the full list, these can change!
+                    #if not hasattr(internal_roster[user_id], "nick"):
+                    user_data = self.full_hipchat_user_list[hipchat_id]
+                    internal_roster[user_id].nick = user_data["mention_name"]
+                    internal_roster[user_id].mention_name = user_data["mention_name"]
 
                     # If it's me, save that info!
                     if internal_roster[user_id]["name"] == self.nick:
