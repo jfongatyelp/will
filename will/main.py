@@ -135,6 +135,16 @@ class WillBot(EmailMixin, WillXMPPClientMixin, StorageMixin, ScheduleMixin,
 
                 while True:
                     time.sleep(100)
+                    # Restart threads if necessary
+                    # Scheduler
+                    if not scheduler_thread.is_alive():
+                        scheduler_thread = Process(target=self.bootstrap_scheduler)
+                    # Bottle
+                    if not bottle_thread.is_alive():
+                        bottle_thread = Process(target=self.bootstrap_bottle)
+                    # XMPP Listener
+                    if not xmpp_thread.is_alive():
+                        xmpp_thread = Process(target=self.bootstrap_xmpp)
             except (KeyboardInterrupt, SystemExit):
                 scheduler_thread.terminate()
                 bottle_thread.terminate()
