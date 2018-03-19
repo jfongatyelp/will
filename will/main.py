@@ -130,6 +130,7 @@ class WillBot(EmailMixin, WillXMPPClientMixin, StorageMixin, ScheduleMixin,
                     error_message = "FYI, I ran into some problems while starting up:"
                     for err in errors:
                         error_message += "\n%s\n" % err
+                        logging.error(err)
                     self.send_room_message(default_room, error_message, color="yellow")
                     puts(colored.red(error_message))
 
@@ -144,6 +145,7 @@ class WillBot(EmailMixin, WillXMPPClientMixin, StorageMixin, ScheduleMixin,
                         bottle_thread = Process(target=self.bootstrap_bottle)
                     # XMPP Listener
                     if not xmpp_thread.is_alive():
+                        logging.info("Lost XMPP; reconnecting")
                         xmpp_thread = Process(target=self.bootstrap_xmpp)
             except (KeyboardInterrupt, SystemExit):
                 scheduler_thread.terminate()

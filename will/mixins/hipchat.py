@@ -63,7 +63,6 @@ class HipChatMixin(object):
                 "message_format": format,
                 "color": color,
                 "notify": notify,
-                "from": "wtf is this",
             }
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
             requests.post(url, headers=headers, data=json.dumps(data), **settings.REQUESTS_OPTIONS)
@@ -106,7 +105,7 @@ class HipChatMixin(object):
 
         logging.info("Roster Cache age is %s" % self.cache_age)
 
-        if not hasattr(self, "_full_hipchat_user_list") or self.cache_age > datetime.timedelta(seconds=10):
+        if not hasattr(self, "_full_hipchat_user_list") or self.cache_age > datetime.timedelta(seconds=60):
             self.last_run = datetime.datetime.now()
             logging.info("Cache miss or no cached roster available: Getting new roster from server")
             full_roster = {}
