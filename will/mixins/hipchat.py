@@ -105,7 +105,7 @@ class HipChatMixin(object):
 
         logging.info("Roster Cache age is %s" % self.cache_age)
 
-        if not hasattr(self, "_full_hipchat_user_list") or self.cache_age > datetime.timedelta(seconds=60):
+        if not hasattr(self, "_full_hipchat_user_list") or self.cache_age > datetime.timedelta(seconds=settings.HIPCHAT_ROSTER_MAX_AGE):
             self.last_run = datetime.datetime.now()
             logging.info("Cache miss or no cached roster available: Getting new roster from server")
             full_roster = {}

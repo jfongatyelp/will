@@ -126,6 +126,9 @@ PLUGIN_BLACKLIST = [
 # Disable SSL checks.  Strongly reccomended this is not set to True.
 # ALLOW_INSECURE_HIPCHAT_SERVER = False
 
+# Max age of Hipchat user list. Defaults to 60s
+# HIPCHAT_ROSTER_MAX_AGE = 60
+
 # Mailgun config, if you'd like will to send emails.
 # DEFAULT_FROM_EMAIL="will@example.com"
 # Set in your environment:

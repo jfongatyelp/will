@@ -160,6 +160,9 @@ def import_settings(quiet=True):
             settings["ALLOW_INSECURE_HIPCHAT_SERVER"] = False
             settings["REQUESTS_OPTIONS"] = {}
 
+        if "HIPCHAT_ROSTER_MAX_AGE" not in settings:
+            settings["HIPCHAT_ROSTER_MAX_AGE"] = 60
+
         if "ADMINS" not in settings:
             settings["ADMINS"] = "*"
         else:
